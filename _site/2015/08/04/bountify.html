@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+	<meta charset="utf-8">
+	<title>Bountify | John Murch</title>
+	<meta name="description" content="I have built a ton of various scrapers, parsers and scripts in the past to get at all kinds of data on the web. I have mostly used PHP, Ruby and more recentl...">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-Frame-Options" content="sameorigin">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/main.css">
+
+	<!--Favicon-->
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+	<!-- Canonical -->
+	<link rel="canonical" href="http://example.com/2015/08/04/bountify.html">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/atom+xml" title="John Murch" href="http://example.com/feed.xml" />
+
+	<!-- Font Awesome -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	
+	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+	
+
+	<!-- KaTeX -->
+	
+
+	<!-- Google Analytics -->
+	
+</head>
+
+  <body>
+    <header class="site-header">
+	<div class="branding">
+		
+		<a href="/">
+			<img class="avatar" src="/img/avatar.png" alt=""/>
+		</a>
+		
+		<h1 class="site-title">
+			<a href="/">John Murch</a>
+<!-- 			<small style="color:#fff">Past Projects</small> -->
+		</h1>
+	</div>
+	<nav class="site-nav">
+		<ul>
+			
+			
+			
+			
+			<li>
+				<a class="page-link" href="/about/">
+					About
+				</a>
+			</li>
+			
+			
+			
+			
+			
+			
+			<!-- Social icons from Font Awesome, if enabled -->
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/johnmurch" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.linkedin.com/in/johnmurch" title="Follow on LinkedIn">
+		<i class="fa fa-fw fa-linkedin"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/johnmurch" title="Follow on Twitter">
+		<i class="fa fa-fw fa-twitter"></i>
+	</a>
+</li>
+
+
+
+
+
+
+		</ul>
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header style="background-image: url('/')">
+    <h1 class="title">Bountify</h1>
+    <p class="meta">
+    August 4, 2015
+    
+    </p>
+  </header>
+  <section class="post-content"><p>I have built a ton of various scrapers, parsers and scripts in the past to get at all kinds of data on the web. I have mostly used PHP, Ruby and more recently Node.js (JavaScript). </p>
+
+<p>When I saw a post on <a href="https://bountify.co/scraper-for-seeking-alpha">Bountify</a> for a Scraper for Seeking Alpha I was curious. I wasn’t familiar with Seeking Alpha, but had a free night where my wife was at an event and I was at home watching the dog, so I figured why not give it a try.</p>
+
+<p>After taking Seeking Alpha for a spin I knew I could parse the profiles, but scraping using their search was going to be more work than the bounty offered. Figuring that there was only going to be a couple of developers posting the answer if any, I figured why not do what I can in as little of time as possible. </p>
+
+<p><img src="/img/bountify.png" alt="Bountify" title="Scraper for Seeking Alpha" /></p>
+
+<p>I simplified the code below but you can download the <a href="https://gist.github.com/johnmurch/db4315d97716f9490ddc">gist</a></p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">),</span>
+    <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;request&#39;</span><span class="p">),</span>
+    <span class="nx">async</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;async&#39;</span><span class="p">),</span>
+    <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">),</span>
+    <span class="nx">cheerio</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;cheerio&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">outputCSV</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="c1">//******************************************************</span>
+<span class="c1">// EACH CATGORY URL (Top 100)</span>
+<span class="c1">// http://seekingalpha.com/leader-board/opinion-leaders</span>
+<span class="c1">//******************************************************</span>
+<span class="kd">var</span> <span class="nx">urls</span> <span class="o">=</span> <span class="p">[</span>
+<span class="s2">&quot;http://seekingalpha.com/opinion-leaders/long-ideas&quot;</span><span class="p">,</span>
+<span class="s2">&quot;http://seekingalpha.com/opinion-leaders/long-ideas/2&quot;</span><span class="p">,</span>
+<span class="s2">&quot;http://seekingalpha.com/opinion-leaders/long-ideas/3&quot;</span><span class="p">,</span>
+<span class="p">...</span>
+<span class="s2">&quot;http://seekingalpha.com/opinion-leaders/mutual-funds/3&quot;</span><span class="p">,</span>
+<span class="s2">&quot;http://seekingalpha.com/opinion-leaders/mutual-funds/4&quot;</span>
+<span class="p">]</span>
+
+<span class="kd">var</span> <span class="nx">authors</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="nx">async</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">urls</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span><span class="nx">urlcb</span><span class="p">){</span>
+    <span class="nx">request</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">$</span> <span class="o">=</span> <span class="nx">cheerio</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+        <span class="c1">////*[@id=&quot;author_articles_wrapper&quot;]/div/div[1]/ul</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.ld_top_list li a&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">elm</span><span class="p">)</span> <span class="p">{</span>          
+          <span class="nx">authors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">));</span>
+        <span class="p">});</span> 
+        <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.ld_more_list li a&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">elm</span><span class="p">)</span> <span class="p">{</span>          
+          <span class="nx">authors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">));</span>
+        <span class="p">});</span> 
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;FETCH: &quot;</span><span class="o">+</span> <span class="nx">url</span><span class="p">);</span>
+        <span class="nx">urlcb</span><span class="p">();</span>
+      <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Check Connection: Issue viewing: &quot;</span><span class="o">+</span> <span class="nx">url</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">error</span><span class="p">);</span>
+        <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">},</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">uniqAuthors</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">uniq</span><span class="p">(</span><span class="nx">authors</span><span class="p">);</span>
+    <span class="nx">async</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">uniqAuthors</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="nx">pcb</span><span class="p">){</span>
+      <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;http://seekingalpha.com&#39;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
+      <span class="nx">request</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Fetching: &quot;</span><span class="o">+</span><span class="nx">url</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">$</span> <span class="o">=</span> <span class="nx">cheerio</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">author</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#author_full_name&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">();</span>
+            <span class="kd">var</span> <span class="nx">profile</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.profile_item_mini_text&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">().</span><span class="nx">toLowerCase</span><span class="p">();</span>
+            <span class="c1">// console.log(name+&quot;|&quot;+profile);</span>
+            <span class="c1">//Check if keyword is in profile - save as boolean true or false</span>
+            <span class="kd">var</span> <span class="nx">boolHedgeFund</span> <span class="o">=</span> <span class="nx">contains</span><span class="p">(</span><span class="nx">profile</span><span class="p">,</span> <span class="s1">&#39;hedge fund&#39;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">boolFormer</span> <span class="o">=</span> <span class="nx">contains</span><span class="p">(</span><span class="nx">profile</span><span class="p">,</span> <span class="s1">&#39;former&#39;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">boolEx</span> <span class="o">=</span> <span class="nx">contains</span><span class="p">(</span><span class="nx">profile</span><span class="p">,</span> <span class="s1">&#39;ex&#39;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">boolPortfolioManager</span> <span class="o">=</span> <span class="nx">contains</span><span class="p">(</span><span class="nx">profile</span><span class="p">,</span> <span class="s1">&#39;portfolio manager&#39;</span><span class="p">);</span>
+
+            <span class="kd">var</span> <span class="nx">count</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">keywords</span> <span class="o">=</span><span class="p">[];</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">boolHedgeFund</span><span class="p">){</span><span class="nx">count</span><span class="o">++</span><span class="p">;</span><span class="nx">keywords</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;hedge fund&#39;</span><span class="p">)}</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">boolFormer</span><span class="p">){</span><span class="nx">count</span><span class="o">++</span><span class="p">;</span><span class="nx">keywords</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;former&#39;</span><span class="p">)}</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">boolEx</span><span class="p">){</span><span class="nx">count</span><span class="o">++</span><span class="p">;</span><span class="nx">keywords</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;ex&#39;</span><span class="p">)}</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">boolPortfolioManager</span><span class="p">){</span><span class="nx">count</span><span class="o">++</span><span class="p">;</span><span class="nx">keywords</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;portfolio manager&#39;</span><span class="p">)}</span>
+
+            <span class="kd">var</span> <span class="nx">capture</span> <span class="o">=</span> <span class="p">{</span>
+              <span class="nx">author</span><span class="o">:</span><span class="nx">author</span><span class="p">,</span>
+              <span class="nx">url</span><span class="o">:</span><span class="nx">url</span><span class="p">,</span>
+              <span class="nx">keywords</span><span class="o">:</span><span class="nx">keywords</span><span class="p">,</span>
+              <span class="c1">// profile: profile,</span>
+              <span class="nx">count</span><span class="o">:</span><span class="nx">count</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">count</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">){</span>
+              <span class="nx">outputCSV</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">capture</span><span class="p">);</span>
+              <span class="nx">pcb</span><span class="p">();</span>
+            <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+              <span class="nx">pcb</span><span class="p">();</span>
+            <span class="p">}</span>
+          <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+            <span class="nx">pcb</span><span class="p">();</span>
+          <span class="p">}</span>
+      <span class="p">});</span>
+    <span class="p">},</span><span class="kd">function</span><span class="p">(){</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;DONE&quot;</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">wstream</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="s1">&#39;results.csv&#39;</span><span class="p">,{</span><span class="s1">&#39;flags&#39;</span><span class="o">:</span> <span class="s1">&#39;w&#39;</span><span class="p">});</span>
+      <span class="nx">wstream</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">&quot;Author,URL,Count,Keywords\n&quot;</span><span class="p">);</span>
+      <span class="nx">async</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">outputCSV</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="nx">acb</span><span class="p">){</span>
+        <span class="nx">wstream</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span>
+            <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">author</span><span class="p">)</span>
+            <span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">a</span><span class="p">.</span><span class="nx">url</span><span class="o">+</span><span class="s2">&quot;,&quot;</span>
+            <span class="o">+</span><span class="nx">a</span><span class="p">.</span><span class="nx">count</span><span class="o">+</span><span class="s2">&quot;,&quot;</span>
+            <span class="o">+</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">keywords</span><span class="p">.</span><span class="nx">join</span><span class="p">())</span>
+            <span class="o">+</span><span class="s2">&quot;\n&quot;</span>
+        <span class="p">);</span>
+      <span class="p">},</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">wstream</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;DONE&quot;</span><span class="p">);</span>
+        <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+      <span class="p">});</span>
+    <span class="p">})</span>
+<span class="p">})</span>
+
+<span class="kd">function</span> <span class="nx">contains</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="nx">s</span><span class="p">){</span> 
+  <span class="k">return</span> <span class="nx">r</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> 
+<span class="p">}</span></code></pre></div>
+
+</section>
+</article>
+
+<!-- Post navigation -->
+
+
+<!-- Disqus -->
+
+
+    </div>
+    
+
+
+<footer class="site-footer">
+	<p class="text"></p>
+</footer>
+
+
+  </body>
+</html>
