@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+	<meta charset="utf-8">
+	<title>WhichHire | John Murch</title>
+	<meta name="description" content="I took part in Static Showdown, a 48 hour hackathon featuring static web apps the weekend of January 24/25, 2015 and built WhichHire">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-Frame-Options" content="sameorigin">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/main.css">
+
+	<!--Favicon-->
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+	<!-- Canonical -->
+	<link rel="canonical" href="http://example.com/2015/01/25/whichhire.html">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/atom+xml" title="John Murch" href="http://example.com/feed.xml" />
+
+	<!-- Font Awesome -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	
+	<link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,700italic,400italic" rel="stylesheet" type="text/css">
+	
+
+	<!-- KaTeX -->
+	
+
+	<!-- Google Analytics -->
+	
+</head>
+
+  <body>
+    <header class="site-header">
+	<div class="branding">
+		
+		<a href="/">
+			<img class="avatar" src="/img/avatar.png" alt=""/>
+		</a>
+		
+		<h1 class="site-title">
+			<a href="/">John Murch</a>
+<!-- 			<small style="color:#fff">Past Projects</small> -->
+		</h1>
+	</div>
+	<nav class="site-nav">
+		<ul>
+			
+			
+			
+			
+			<li>
+				<a class="page-link" href="/about/">
+					About
+				</a>
+			</li>
+			
+			
+			
+			
+			
+			
+			<!-- Social icons from Font Awesome, if enabled -->
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://github.com/johnmurch" title="Follow on GitHub">
+		<i class="fa fa-fw fa-github"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+<li>
+	<a href="https://www.linkedin.com/in/johnmurch" title="Follow on LinkedIn">
+		<i class="fa fa-fw fa-linkedin"></i>
+	</a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+	<a href="https://twitter.com/johnmurch" title="Follow on Twitter">
+		<i class="fa fa-fw fa-twitter"></i>
+	</a>
+</li>
+
+
+
+
+
+
+		</ul>
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header style="background-image: url('/')">
+    <h1 class="title">WhichHire</h1>
+    <p class="meta">
+    January 25, 2015
+    
+    </p>
+  </header>
+  <section class="post-content"><p>I took part in <a href="http://www.staticshowdown.com/">Static Showdown</a>, a 48 hour hackathon featuring static web apps the weekend of January 24/25, 2015 and built <a href="http://www.whichhire.com">WhichHire</a></p>
+
+<p><img src="/img/whichhire-logo.png" alt="WhichHire" title="WhichHire - Filtering UnderDog Candidates" /></p>
+
+<p>Although I coded WhichHire by myself, I have to give a shout out and thank y you to <a href="https://twitter.com/jeaninehender">@jeaninehender</a> for creating the logo</p>
+
+<p>Before the hackathon I was trying to hire and used <a href="https://underdog.io/">UnderDog</a> to get access to candidates. If you are unfamiliar with UnderDog, basically they connects candidates with startups by using human intelligence and technology. UnderDog reviews and ranks applicants and sends hand-picked candidate batches to companies. UnderDog sends these candidates via an email with an attached JSON file of the data. </p>
+
+<p>Each time I received one of these emails I would review the candidates, but wanted more of a workflow and came up with the following steps:</p>
+
+<ol>
+  <li>Read each candidates info and checkout their personal and social links - <strong>Add Candidates</strong></li>
+  <li>Select that individual or move to the next to build a list of qualified candidates - <strong>Select Candidates</strong></li>
+  <li>Reach out to these qualified candidates via Email - <strong>Contact Candidates</strong></li>
+</ol>
+
+<p>I took this blueprint and started to think of how I could create a simple static wizard as part of the Static Showdown, dare I say kill 2 birds with one stone. Let’s Take a look.</p>
+
+<h2 id="step-1---add-candidates">Step 1 - Add Candidates</h2>
+
+<p><img src="/img/whichhire-add.png" alt="WhichHire" title="WhichHire - Add Candidates" /></p>
+
+<p>You could either add them individually </p>
+
+<p><img src="/img/whichhire-add-user.png" alt="WhichHire" title="WhichHire - Add User Candidates" /></p>
+
+<p>or you could add the JSON file from UnderDog - or if you just want to test, click the mock data as it uses <a href="https://randomuser.me/">RandomUser.me</a></p>
+
+<p><img src="/img/whichhire-add-json.png" alt="WhichHire" title="WhichHire - Add JSON Candidates" /></p>
+
+<h2 id="step-2---select-candidates">Step 2 - Select Candidates</h2>
+<p><img src="/img/whichhire-users.png" alt="WhichHire" title="WhichHire - Users Candidates" /></p>
+
+<p>You can select a individual user or load the first one and use the right arrow key to go to each of them one by one.</p>
+
+<p><img src="/img/whichhire-user-modal.png" alt="WhichHire" title="WhichHire - Users Modal" /></p>
+
+<p>If you like the candidates you can “Select” them and continue on</p>
+
+<p><img src="/img/whichhire-select-user.png" alt="WhichHire" title="WhichHire - Select Users Modal" /></p>
+
+<p>Once you selected your candidates you can move to Step 3 </p>
+
+<h2 id="step-3---contact-candidates">Step 3 - Contact Candidates</h2>
+<p>Simple mailto link so you can just click and open in your default mail app.
+<img src="/img/whichhire-contact.png" alt="WhichHire" title="WhichHire - Contact Candidates" /></p>
+
+<blockquote>
+  <p>Although I want/wanted to build a full blown HR app, doing a static hackathon limits what you can build in 48 hours and with what tools</p>
+</blockquote>
+
+<p><img src="/img/whichhire.png" alt="WhichHire" title="WhichHire - Filtering UnderDog Candidates" /></p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="http://www.whichhire.com">Please Take WhichHire for a spin</a></td>
+    </tr>
+  </tbody>
+</table>
+
+</section>
+</article>
+
+<!-- Post navigation -->
+
+
+<!-- Disqus -->
+
+
+    </div>
+    
+
+
+<footer class="site-footer">
+	<p class="text"></p>
+</footer>
+
+
+  </body>
+</html>
