@@ -3,15 +3,15 @@ layout: post
 title: WhichHire
 ---
 
-I took part in [Static Showdown](http://www.staticshowdown.com/), a 48 hour hackathon featuring static web apps the weekend of January 24/25, 2015 and built [WhichHire](http://www.whichhire.com)
+I took part in [Static Showdown](http://www.staticshowdown.com/), a 48 hour hackathon featuring static web apps the weekend of January 24/25, 2015 and built [WhichHire](http://www.whichhire.com). WhichHire is just a simple workflow wizard for reviewing potential candidates for a job, specifically developers from UnderDog 
 
 ![WhichHire](/img/whichhire-logo.png "WhichHire - Filtering UnderDog Candidates")
 
-Although I coded WhichHire by myself, I have to give a shout out and thank y you to [@jeaninehender](https://twitter.com/jeaninehender) for creating the logo
+Although I coded WhichHire by myself, a shout out and thank you goes to [@jeaninehender](https://twitter.com/jeaninehender) for creating the logo
 
-Before the hackathon I was trying to hire and used [UnderDog](https://underdog.io/) to get access to candidates. If you are unfamiliar with UnderDog, basically they connects candidates with startups by using human intelligence and technology. UnderDog reviews and ranks applicants and sends hand-picked candidate batches to companies. UnderDog sends these candidates via an email with an attached JSON file of the data. 
+Before the hackathon I was in a position to hire, and used [UnderDog](https://underdog.io/) to get access to candidates. UnderDog reviews and ranks applicants and sends hand-picked candidate batches to companies via an email with an attached JSON file of the data. 
 
-Each time I received one of these emails I would review the candidates, but wanted more of a workflow and came up with the following steps:
+Each time I received one of these emails I would review the candidates, but wanted a better workflow so came up with the following steps:
 
 1. Read each candidates info and checkout their personal and social links - **Add Candidates**
 2. Select that individual or move to the next to build a list of qualified candidates - **Select Candidates**
@@ -23,11 +23,11 @@ I took this blueprint and started to think of how I could create a simple static
 
 ![WhichHire](/img/whichhire-add.png "WhichHire - Add Candidates")
 
-You could either add them individually 
+You could add them individually 
 
 ![WhichHire](/img/whichhire-add-user.png "WhichHire - Add User Candidates")
 
-or you could add the JSON file from UnderDog - or if you just want to test, click the mock data as it uses [RandomUser.me](https://randomuser.me/)
+or you can add the JSON file from UnderDog - Or if you just want to test, click the mock data as it uses [RandomUser.me](https://randomuser.me/)
 
 ![WhichHire](/img/whichhire-add-json.png "WhichHire - Add JSON Candidates")
 
@@ -42,14 +42,13 @@ If you like the candidates you can "Select" them and continue on
 
 ![WhichHire](/img/whichhire-select-user.png "WhichHire - Select Users Modal")
 
-Once you selected your candidates you can move to Step 3 
+Once you've selected your candidates, move to Step 3 
 
 ##Step 3 - Contact Candidates
-Simple mailto link so you can just click and open in your default mail app.
+Simple mailto (Email) link so you can just click and open in your default mail app.
 ![WhichHire](/img/whichhire-contact.png "WhichHire - Contact Candidates")
 
-
->Although I want/wanted to build a full blown HR app, doing a static hackathon limits what you can build in 48 hours and with what tools
+Although my intent was to build a full-blown HR app, a static hackathon limits what you can build in 48 hours and with what tools.
 
 ![WhichHire](/img/whichhire.png "WhichHire - Filtering UnderDog Candidates")
 

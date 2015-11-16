@@ -12,3 +12,6 @@ Be Sure to Follow me on Twitter ([@johnmurch](http://www.twitter.com/johnmurch))
 * RideWithUs -> Uber Screenshot? 
 
 
+## Run:
+*  jekyll build
+

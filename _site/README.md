@@ -7,19 +7,11 @@ Be Sure to Follow me on Twitter ([@johnmurch](http://www.twitter.com/johnmurch))
 
 # @todo - Add Past Projects
 
-* SEO Scripts//Content Hacks (Zemanta)
-* WhichHire - Update and Fix ***
+* SEO Scripts//Content Hacks 
 * WriteUp - MeetingCalc - First Angular Project
-* RideWithUs -> Screenshot? 
+* RideWithUs -> Uber Screenshot? 
 
-1. LinkBox.io
-2. Incubate
-3. Confirm Analytics
-4. HomeForgot -> Mockup/Build - Someone build this *** -> 
-5. iWant.io -> Reverse Kickstarter
-6. TrackPie -> Fucking Finish ******* (Link Tracking + JS Conversion) 
-7. ReqURL 
 
-httpstatus.io Rebuilt with Node.js - Showcase Example Code - check redirects
+## Run:
+*  jekyll build
 
-API -> Check Redirects -> Pass in URLS -> Get back Results **? 
