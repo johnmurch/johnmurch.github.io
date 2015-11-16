@@ -3,7 +3,7 @@ layout: post
 title: WhichHire
 ---
 
-I took part in [Static Showdown](http://www.staticshowdown.com/), a 48 hour hackathon featuring static web apps the weekend of January 24/25, 2015 and built [WhichHire](http://www.whichhire.com). WhichHire is just a simple workflow wizard for reviewing potential candidates for a job, specifically developers from UnderDog 
+I took part in [Static Showdown](http://www.staticshowdown.com/), a 48 hour hackathon featuring static web apps the weekend of January 24/25, 2015 and built [WhichHire](http://www.whichhire.com). WhichHire is just a simple workflow wizard for reviewing potential candidates for a job, specifically developers from UnderDog.
 
 ![WhichHire](/img/whichhire-logo.png "WhichHire - Filtering UnderDog Candidates")
 
